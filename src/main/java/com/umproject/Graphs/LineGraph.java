@@ -3,6 +3,7 @@ package com.umproject.Graphs;
 
 import com.umproject.Launcher;
 import com.umproject.MainPage.Student;
+import com.umproject.Utils.PopupSetup;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -245,25 +246,7 @@ public class LineGraph  {
         createAndShowCharts(data1, graphPane, root.getWidth()/1.5, root.getHeight()/1.5, index);
 
         //add the graph pane to the popup
-        popup.getContent().add(graphPane);
-        popup.setAutoHide(true);
-
-        //set the size of the popup
-        popup.setWidth(graphPaneWidth);
-        popup.setHeight(paneHeight);
-
-        double stageX = stage.getX();
-        double stageY = stage.getY();
-        double stageWidth = stage.getWidth();
-        double stageHeight = stage.getHeight();
-
-        double popupX = stageX + (stageWidth - graphPaneWidth) / 2;
-        double popupY = stageY + (stageHeight - paneHeight) / 2;
-
-        popup.setX(popupX);
-        popup.setY(popupY);
-
-        //show the popup
-        popup.show(stage);
+        PopupSetup popupSetup = new PopupSetup();
+        popupSetup.popupSetup(stage, popup, graphPane, graphPaneWidth, paneHeight);
     }
 }

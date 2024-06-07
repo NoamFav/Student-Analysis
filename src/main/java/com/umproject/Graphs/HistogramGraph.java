@@ -1,6 +1,7 @@
 package com.umproject.Graphs;
 
 import com.umproject.Launcher;
+import com.umproject.Utils.PopupSetup;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -124,27 +125,8 @@ public class HistogramGraph {
         createHistogram(data1, graphPane);
 
         //add the graph pane to the popup
-        popup.getContent().add(graphPane);
-        popup.setAutoHide(true);
-
-        //set the size of the popup to match the pane
-        popup.setWidth(paneWidth);
-        popup.setHeight(paneHeight);
-
-        //calculate position to center the popup on the stage
-        double stageX = stage.getX();
-        double stageY = stage.getY();
-        double stageWidth = stage.getWidth();
-        double stageHeight = stage.getHeight();
-
-        double popupX = stageX + (stageWidth - paneWidth) / 2;
-        double popupY = stageY + (stageHeight - paneHeight) / 2;
-
-        popup.setX(popupX);
-        popup.setY(popupY);
-
-        //show the popup
-        popup.show(stage);
+        PopupSetup popupSetup = new PopupSetup();
+        popupSetup.popupSetup(stage, popup, graphPane, graphPaneWidth, paneHeight);
     }
 
 }

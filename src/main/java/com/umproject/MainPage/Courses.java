@@ -8,6 +8,7 @@ import com.umproject.Graphs.HistogramGraph;
 import com.umproject.Graphs.PieChartGraph;
 import com.umproject.Graphs.PolygonGraph;
 import com.umproject.Launcher;
+import com.umproject.Utils.GradeCalculator;
 import com.umproject.Utils.SearchBar;
 import com.umproject.Utils.WidgetSetup;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -142,28 +144,10 @@ public class Courses {
         } else if (index == 1) {
             LoadFile(graduateInfoArray, dataList);
         }
-        table.setItems(dataList);
 
-        //calculate the average grade of the course based on the index
-        double averages = 0;
-        int validNumbersCount = 0;
-        if (index == 0) {
-            for (String[] strings : infoArray) {
-                String stringValue = strings[1];
-                if (isNumeric(stringValue) &&!stringValue.equals("NG")) {
-                    averages += Double.parseDouble(stringValue);
-                    validNumbersCount++;
-                }
-            }} else if (index == 1) {
-            for (String[] strings : graduateInfoArray) {
-                String stringValue = strings[1];
-                if (isNumeric(stringValue) &&!stringValue.equals("NG")) {
-                    averages += Double.parseDouble(stringValue);
-                    validNumbersCount++;
-                }
-            }
-        }
-        averages = averages/validNumbersCount;
+        GradeCalculator calculator = new GradeCalculator(infoArray, graduateInfoArray);
+        double averages = calculator.calculateAverageGrade(index);
+        int validNumbersCount = calculator.getValidNumbersCount();
 
         //calculate the difference between the average of the course and the average of all courses, based on the index and the checkbox state
         double difference1 = getDifference1(index, averages);
@@ -276,10 +260,10 @@ public class Courses {
         return ((averages - sum)/sum)*100;
     }
 
-    private void LoadFile(String[][] graduateInfoArray, ObservableList<String[]> dataList) {
+    private void LoadFile(String[][] graduateInfoArray, @NotNull ObservableList<String[]> dataList) {
         //load the array into an ObservableList for the table
         dataList.addAll(Arrays.asList(Objects.requireNonNull(graduateInfoArray)));
-        dataList.removeFirst();
+        dataList.removeFirst(); // Assuming the first row contains column headers
 
         Comparator<String> numericComparator = Menu.createNumericComparator();
         for (int i = 0; i < graduateInfoArray[0].length; i++) {
@@ -290,19 +274,11 @@ public class Courses {
             table.getColumns().add(tc);
             tc.setComparator(numericComparator); //add custom comparator to handle the String input with numeric values
         }
+
+        // Set the items of the table
+        table.setItems(dataList);
     }
-    private boolean isNumeric(String str) {
-        //check if the string is a number
-        if (str == null) {
-            return false;
-        }
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch(NumberFormatException e) {
-            return false;
-        }
-    }
+
     public void draw(int index) {
 
         //add the predicate button to the root if it doesn't already exist and the index is 0
