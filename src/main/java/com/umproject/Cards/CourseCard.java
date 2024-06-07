@@ -11,10 +11,12 @@ public class CourseCard {
     private final int rowCount = data1.length; //Number of rows of currentGrades
     private final int colCount = data1[0].length; //Number of columns of currentGrades
     private final double[][] arrayWithoutNG = new double[rowCount - 1][colCount - 1]; //Initialize an array of student grades without NGs
-    private final double[] sums = new double[rowCount - 1]; //An array to store the sum of grades that each student obtains
-    private final double[] averages = new double[rowCount - 1]; //An array to store the average grades that each student obtains
-    private final double[] grades = new double[rowCount - 1]; //An array to store the number of grades that each student obtains
-    private final double[] NGs = new double[rowCount - 1]; //An array to store the number of NGs that each student obtains
+    private final double[] sums = new double[rowCount - 1]; //An array to store the sum of grades that each student gets
+    private final double[] averages = new double[rowCount - 1]; //An array
+    // to store the average grades that each student gets
+    private final double[] grades = new double[rowCount - 1]; //An array
+    // to store the number of grades that each student gets
+    private final double[] NGs = new double[rowCount - 1]; //An array to store the number of NGs that each student gets
 
 
     //Initialize a 3D array to store course cards with student id and grades
@@ -30,8 +32,8 @@ public class CourseCard {
             infoArray[i][0][0] = "Course " + data[0][i + 1];
             infoArray[i][0][1] = "Grade"; //store course names and the student's corresponding grade of the course
             infoArray[i][0][2] = "Student Average Grade"; //store the student's average grade
-            infoArray[i][0][3] = "Grade Count"; //store the number of grades that the student obtains
-            infoArray[i][0][4] = "NG count"; //store the number of NGs that the student obtains
+            infoArray[i][0][3] = "Grade Count"; //store the number of grades that the student gets
+            infoArray[i][0][4] = "NG count"; //store the number of NGs that the student gets
 
             for (int j = 1; j < rowCount; j++){
                 infoArray[i][j][0] = data[j][0]; //place student id on the 0th column of infoArray

@@ -6,7 +6,7 @@ import com.umproject.Graphs.LineGraph;
 import com.umproject.Graphs.PolygonGraph;
 import com.umproject.Launcher;
 import com.umproject.Utils.ReaderCsv;
-import com.umproject.Utils.Widget;
+import com.umproject.Utils.WidgetSetup;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -113,7 +113,7 @@ public class Student {
         } else if (index == 1) {
             dataList.addAll(Arrays.asList(Objects.requireNonNull(graduatesArray)));
         }
-        dataList.remove(0);
+        dataList.removeFirst();
 
         Comparator<String> numericComparator = Menu.createNumericComparator();
 
@@ -169,7 +169,7 @@ public class Student {
         double differences3 = ((validNumbersCount-14.093085106383)/14.093085106383)*100; //compare its number of grades to the average grades of students
 
         //update the labels and icons
-        Widget.updateLabelsAndIconsStudent(averages, 30 - validNumbersCount, validNumbersCount, differences1, differences2, differences3, index);
+        WidgetSetup.updateLabelsAndIconsStudent(averages, 30 - validNumbersCount, validNumbersCount, differences1, differences2, differences3, index);
 
         //create the radar chart button
         polygon = new Button();
@@ -276,7 +276,7 @@ public class Student {
         }
 
         //change the info label
-        Widget.info.setText("Student grades");
+        WidgetSetup.info.setText("Student grades");
 
         //add the table, the polygon button, the line chart button and the attribute label, if they don't already exist
         if (!root.getChildren().contains(table)) {

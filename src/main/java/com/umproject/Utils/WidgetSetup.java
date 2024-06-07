@@ -18,7 +18,7 @@ import java.util.Objects;
 import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.WHITE;
 
-public class Widget {
+public class WidgetSetup {
 
     public static final Rectangle sidePanel1 = new Rectangle();
     public static final Rectangle sidePanel2 = new Rectangle();
@@ -49,7 +49,8 @@ public class Widget {
     public static ImageView downIconViewForBlack;
     public static ImageView constantViewForOrange;
     public static ImageView constantViewForBlack;
-    public Widget(Pane root) {
+
+    public WidgetSetup(Pane root) {
 
         //load the three icons for comparison
         down = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/umproject/images/DOWN.png")));

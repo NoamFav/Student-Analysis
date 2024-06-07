@@ -119,7 +119,7 @@ public class SearchBar{
                 course = new Courses(root, outputCourse, stage);
                 course.draw(Courses.CourseIndex);
 
-                Widget.page.setText("Course " + outputCourse);
+                WidgetSetup.page.setText("Course " + outputCourse);
             } else if (studentIds.contains(textField.getText())) {
                 outputStudent = textField.getText();
                 Menu.dataSet.clear();
@@ -143,7 +143,7 @@ public class SearchBar{
                 student.draw(Student.index);
 
 
-                Widget.page.setText("Student " + outputStudent);
+                WidgetSetup.page.setText("Student " + outputStudent);
             } else if (studentsGraduateID.contains(textField.getText())) {
                 outputStudent = textField.getText();
                 Menu.dataSet.clear();
@@ -165,7 +165,7 @@ public class SearchBar{
                 student = new Student(root, outputStudent, stage);
                 Student.index = 1;
                 student.draw(Student.index);
-                Widget.page.setText("Student " + outputStudent);
+                WidgetSetup.page.setText("Student " + outputStudent);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initOwner(stage);
@@ -204,7 +204,7 @@ public class SearchBar{
                     course = new Courses(root, outputCourse, stage);
                     course.draw(Courses.CourseIndex);
 
-                    Widget.page.setText("Course " + outputCourse);
+                    WidgetSetup.page.setText("Course " + outputCourse);
                 } else if (studentIds.contains(textField.getText())) {
                     outputStudent = textField.getText();
                     Menu.dataSet.clear();
@@ -227,7 +227,7 @@ public class SearchBar{
                     student.draw(0);
                     Student.index = 0;
 
-                    Widget.page.setText("Student " + outputStudent);
+                    WidgetSetup.page.setText("Student " + outputStudent);
                 } else if (studentsGraduateID.contains(textField.getText())) {
                     outputStudent = textField.getText();
                     Menu.dataSet.clear();
@@ -250,7 +250,7 @@ public class SearchBar{
                     student.draw(1);
                     Student.index = 1;
 
-                    Widget.page.setText("Student " + outputStudent);
+                    WidgetSetup.page.setText("Student " + outputStudent);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.initOwner(stage);

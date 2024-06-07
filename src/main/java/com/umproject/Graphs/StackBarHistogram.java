@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class StackBarHistogram {
     /*"#7F7F7F", "#708090", "#778899", "#B0C4DE", "#6A5ACD", "#483D8B", "#4169E1", "#6495ED", "#4682B4", "#008B8B",
             "#5F9EA0", "#20B2AA", "#008080", "#006400", "#228B22", "#808000", "#BDB76B", "#556B2F", "#8FBC8B", "#2E8B57",
             "#3CB371", "#9ACD32", "#6B8E23", "#B8860B", "#DAA520", "#CD853F", "#D2691E", "#8B4513", "#A0522D", "#BC8F8F"*/
-    public void createStackBarHistogram(Pane root, String[][] gradeArray, double dimensionWidth, double dimensionHeight) {
+    public void createStackBarHistogram(Pane root, String[] @NotNull [] gradeArray, double dimensionWidth, double dimensionHeight) {
         //create a 2D map of the distribution, of grades for each course
         Map<String, Map<Integer, Integer>> courseGrades = new HashMap<>();
         for (int x = 0; x < gradeArray[0].length; x++) {
@@ -48,7 +49,9 @@ public class StackBarHistogram {
                     a = Double.parseDouble(strings[x]);
                     int grade = (int) a;
                     gradeCounts.put(grade, gradeCounts.getOrDefault(grade, 0) + 1);
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
+                }
             }
             courseGrades.put(courseNames[x], gradeCounts);
         }
@@ -137,7 +140,7 @@ public class StackBarHistogram {
         root.getChildren().add(mainLayout);
     }
 
-    public void ShowGraphInPopup(Stage stage, String[][] data, Pane root) {
+    public void ShowGraphInPopup(@NotNull Stage stage, String[][] data, @NotNull Pane root) {
         //create the popup
         Popup popup = new Popup();
 

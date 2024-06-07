@@ -130,8 +130,8 @@ public class Chart {
         //load the courses using the filepath used
         try (BufferedReader br = new BufferedReader(new FileReader(selectedFilePath))) {
             courses = Arrays.copyOfRange(br.readLine().split(","), 1, br.readLine().split(",").length);
-        } catch (IOException ignored) {
-
+        } catch (IOException e) {
+            e.printStackTrace(new java.io.PrintWriter(System.err));
         }
         return courses;
     }
@@ -301,7 +301,8 @@ public class Chart {
             }
             return studentFound ? grades : null;
 
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace(new java.io.PrintWriter(System.err));
             return null;
         }
     }

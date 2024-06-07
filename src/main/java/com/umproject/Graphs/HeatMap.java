@@ -37,7 +37,9 @@ public class HeatMap {
                     a = Double.parseDouble(strings[x]);
                     int grade = (int) a;
                     gradeCounts.put(grade, gradeCounts.getOrDefault(grade, 0) + 1);
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
+                }
             }
             courseGrades.put(courseNames[x], gradeCounts);
         }
@@ -231,7 +233,8 @@ public class HeatMap {
                     if (value < minGrade) {
                         minGrade = value;
                     }
-                } catch (NumberFormatException ignored) {
+                } catch (NumberFormatException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
                 }
             }
         }
@@ -248,7 +251,8 @@ public class HeatMap {
                     if (value > maxGrade) {
                         maxGrade = value;
                     }
-                } catch (NumberFormatException ignored) {
+                } catch (NumberFormatException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
                 }
             }
         }

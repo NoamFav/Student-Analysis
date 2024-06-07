@@ -57,7 +57,9 @@ public class graduateStudentCard {
                     if (j-1 < sums.length) {
                         sums[j-1] += Double.parseDouble(value);
                     }
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
+                }
             }
         }
         //Calculate the average grade of each course

@@ -40,7 +40,7 @@ public class ReaderCsv {
 			}
 		} catch (IOException e) {
 			System.err.println("Error reading resource: " + resourcePath);
-			return new String[0][];  // Return empty array to avoid NPE in consumer code
+			return new String[0][];  // Return an empty array to avoid NPE in consumer code
 		}
 
 		return list.toArray(new String[0][]);
