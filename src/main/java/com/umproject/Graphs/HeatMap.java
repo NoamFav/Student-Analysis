@@ -1,6 +1,8 @@
 package com.umproject.Graphs;
 
 import com.umproject.Launcher;
+import com.umproject.Utils.DataListenerTooltip;
+import com.umproject.Utils.PopupSetup;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.CategoryAxis;
@@ -8,7 +10,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -99,18 +100,8 @@ public class HeatMap {
                 series.getData().add(data);
 
                 final String style = "-fx-bar-fill: " + color + ";";
-                int finalGrade = grade;
-
-                //add listener for each data point to allow the tooltip to be displayed and the hover event to be handled
-                data.nodeProperty().addListener((observable, oldNode, newNode) -> {
-                    if (newNode != null) {
-                        newNode.setStyle(style);
-                        Tooltip tooltip = new Tooltip(course + "\nGrade: " + finalGrade + "\nCount: " + count);
-                        Tooltip.install(newNode, tooltip);
-                        newNode.setOnMouseEntered(e -> newNode.setStyle("-fx-bar-fill: rgba(173, 216, 230, 0.8);"));
-                        newNode.setOnMouseExited(e -> newNode.setStyle(style));
-                    }
-                });
+                DataListenerTooltip dataListenerTooltip = new DataListenerTooltip();
+                dataListenerTooltip.dataListenerTooltip(course, grade, count, data, style);
             }
             stackedBarChart.getData().add(series);
         }
@@ -145,34 +136,16 @@ public class HeatMap {
 
         container.getChildren().addAll(graphPane, legend); //add both heatmap and legend to the container
 
-        //add the container to the popup
-        popup.getContent().add(container);
-        popup.setAutoHide(true);
-
         //set the size of the popup to include space for the legend
         double additionalVerticalSpace = 10;
         double additionalHorizontalSpace = 20;
         double paneWidth = graphPaneWidth + additionalHorizontalSpace + legend.getPrefWidth();
         double paneHeight = graphPaneHeight + additionalVerticalSpace;
 
-        //set popup size and position
-        popup.setWidth(paneWidth);
-        popup.setHeight(paneHeight);
-
-        double stageX = stage.getX();
-        double stageY = stage.getY();
-        double stageWidth = stage.getWidth();
-        double stageHeight = stage.getHeight();
-
-        double popupX = stageX + (stageWidth - paneWidth) / 2;
-        double popupY = stageY + (stageHeight - paneHeight) / 2;
-
-        popup.setX(popupX);
-        popup.setY(popupY);
-
-        //show the popup
-        popup.show(stage);
+        PopupSetup popupSetup = new PopupSetup();
+        popupSetup.popupSetup(stage, popup, container,  paneWidth, paneHeight);
     }
+
     private String getColorIntensity(int count, int maxCount) {
         //create a function to get a gradient from green to yellow to orange to red based on calculation of the normalized value
         double normalizedValue = (double) count / maxCount;

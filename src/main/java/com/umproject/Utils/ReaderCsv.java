@@ -43,6 +43,7 @@ public class ReaderCsv {
 			return new String[0][];  // Return an empty array to avoid NPE in consumer code
 		}
 
+		System.out.println("Loaded " + list.size() + " records from " + resourcePath);
 		return list.toArray(new String[0][]);
 	}
 }

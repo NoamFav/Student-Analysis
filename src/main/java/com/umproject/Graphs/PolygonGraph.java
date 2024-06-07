@@ -2,6 +2,7 @@ package com.umproject.Graphs;
 
 import com.umproject.Launcher;
 import com.umproject.MainPage.Student;
+import com.umproject.Utils.PopupSetup;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -142,27 +143,8 @@ public class PolygonGraph {
             drawElements(graphPane, centerX, centerY, radius, data1, averageGrades2, root);
         }
 
-        //add the graph pane to the popup
-        popup.getContent().add(graphPane);
-        popup.setAutoHide(true);
-
-        //set the width and height of the popup
-        popup.setWidth(paneWidth);
-        popup.setHeight(paneHeight);
-
-        double stageX = stage.getX();
-        double stageY = stage.getY();
-        double stageWidth = stage.getWidth();
-        double stageHeight = stage.getHeight();
-
-        double popupX = stageX + (stageWidth - paneWidth) / 2;
-        double popupY = stageY + (stageHeight - paneHeight) / 2;
-
-        popup.setX(popupX);
-        popup.setY(popupY);
-
-        //show the popup
-        popup.show(stage);
+        PopupSetup popupSetup = new PopupSetup();
+        popupSetup.popupSetup(stage, popup, graphPane, graphPaneWidth, paneHeight);
     }
     public static double[][] generateTriacontagonVertices(double radius, double[] center, double offset) {
         //create the vertices positions of the triacontagon based on the equation of regular polygon

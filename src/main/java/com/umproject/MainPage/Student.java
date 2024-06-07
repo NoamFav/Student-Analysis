@@ -5,6 +5,7 @@ import com.umproject.Cards.studentCard;
 import com.umproject.Graphs.LineGraph;
 import com.umproject.Graphs.PolygonGraph;
 import com.umproject.Launcher;
+import com.umproject.Utils.GradeCalculator;
 import com.umproject.Utils.ReaderCsv;
 import com.umproject.Utils.WidgetSetup;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -60,6 +62,7 @@ public class Student {
         table.setPrefWidth(Launcher.Distance(1920,858, root.getWidth()));
         table.setPrefHeight(Launcher.Distance(1080,589.95, root.getHeight()));
     }
+
     private void setData(int index) {
         //initialize both info and graduate array
         //info array change if the predicate checkbox is selected
@@ -125,44 +128,12 @@ public class Student {
         }
 
         //set the data into the table
-        table.setItems(dataList);
-
-        //calculate the average of the grades depending on the index
-        double averages = 0;
-        int validNumbersCount = 0;
-        if (index == 0) {
-            for (String[] strings : infoArray) {
-                String stringValue = strings[1];
-                if (isNumeric(stringValue) && !stringValue.equals("NG")) {
-                    averages += Double.parseDouble(stringValue);
-                    validNumbersCount++;
-                }
-            }
-        } else if (index == 1) {
-            for (String[] strings : graduatesArray) {
-                String stringValue = strings[1];
-                if (isNumeric(stringValue) &&!stringValue.equals("NG")) {
-                    averages += Double.parseDouble(stringValue);
-                    validNumbersCount++;
-                }
-            }
-        }
-        averages /= validNumbersCount;
+        GradeCalculator gradeCalculator = new GradeCalculator(infoArray, graduatesArray);
+        double averages = gradeCalculator.calculateAverageGrade(index);
+        int validNumbersCount = gradeCalculator.getValidNumbersCount();
 
         //calculate the average of students' grades depending on the index
-        double sum = 0;
-        if (index == 0) {
-            for (double i : predicate.isSelected() ? PolygonGraph.averageGrades3 : PolygonGraph.averageGrades) {
-                sum += i;
-            }
-            sum = sum / 27;
-        } else if (index == 1) {
-            for (double i : PolygonGraph.averageGrades2) {
-                sum += i;
-            }
-            sum = sum / 30;
-        }
-        double differences1 = ((averages-sum)/sum)*100; //set differences 1 with the sum and averages
+        double differences1 = getDifferences1(index, averages);
 
         double differences2 = (((30-validNumbersCount)-15.906914893617)/15.906914893617)*100; //compare its number of NG to the average NGs of students
 
@@ -236,7 +207,23 @@ public class Student {
         }
     }
 
-    private void loadTable(String[][] graduatesArray, Comparator<String> numericComparator) {
+    private static double getDifferences1(int index, double averages) {
+        double sum = 0;
+        if (index == 0) {
+            for (double i : predicate.isSelected() ? PolygonGraph.averageGrades3 : PolygonGraph.averageGrades) {
+                sum += i;
+            }
+            sum = sum / 27;
+        } else if (index == 1) {
+            for (double i : PolygonGraph.averageGrades2) {
+                sum += i;
+            }
+            sum = sum / 30;
+        }
+        return ((averages -sum)/sum)*100;
+    }
+
+    private void loadTable(String[] @NotNull [] graduatesArray, Comparator<String> numericComparator) {
         //load the graduatesArray into the table
         for (int i = 0; i < graduatesArray[0].length; i++) {
             TableColumn<String[], String> tc = new TableColumn<>(graduatesArray[0][i]);
@@ -249,19 +236,15 @@ public class Student {
                 tc.setComparator(numericComparator);
             }
         }
-    }
 
-    private boolean isNumeric(String str) {
-        //check if the string is a number
-        if (str == null) {
-            return false;
-        }
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch(NumberFormatException e) {
-            return false;
-        }
+        // Create an ObservableList for the table data
+        ObservableList<String[]> data = FXCollections.observableArrayList();
+
+        // Add each row from graduatesArray to the ObservableList
+        data.addAll(Arrays.asList(graduatesArray).subList(1, graduatesArray.length));
+
+        // Set the items of the table
+        table.setItems(data);
     }
 
     public void draw(int index) {
