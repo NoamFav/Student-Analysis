@@ -1,0 +1,329 @@
+.button-6 {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 5;
+}
+
+.button-6:hover {
+    -fx-background-color: #333333;
+    -fx-cursor: hand;
+}
+
+.Search-bar {
+    -fx-font-size: 20px;
+    -fx-background-radius: 75px;
+    -fx-stroke: 2px;
+}
+
+.Search-bar .context-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 0 0 75px 75px;
+}
+
+.Search-bar .menu-item {
+    -fx-font-size: 20px;
+    -fx-padding: 5px 10px;
+}
+
+.loop {
+    -fx-font-size: 20px;
+    -fx-background-radius: 75px;
+    -fx-stroke: 2px;
+    -fx-background-color: #00774D;
+}
+
+.loop:hover {
+    -fx-background-color: #009966;
+    -fx-cursor: hand;
+}
+
+.SaveButton {
+    -fx-font-size: 20;
+    -fx-background-radius: 75px;
+    -fx-background-color: #00774D;
+    -fx-text-fill: white;
+}
+
+.SaveButton:hover {
+    -fx-background-color: #009966;
+    -fx-cursor: hand;
+}
+
+.MainPanel {
+    -fx-fill: #ffffff;
+}
+
+.SidePanel1 {
+    -fx-fill: #00774D;
+}
+
+.SidePanel2 {
+    -fx-fill: #E88C00;
+}
+
+.SidePanel3 {
+    -fx-fill: #090F1B;
+}
+
+.Page {
+    -fx-font-weight: bold;
+}
+
+.info {
+    -fx-underline: true;
+    -fx-font-weight: bold;
+}
+
+.table-view {
+    -fx-background-color: #f4f4f4;
+    -fx-table-cell-border-color: transparent;
+    -fx-border-color: #d3d3d3;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-padding: 5px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e6e6e6;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-alignment: center;
+}
+
+.table-view .table-row-cell {
+    -fx-cell-size: 25px;
+    -fx-text-fill: #333333;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10px;
+    -fx-border-color: #d3d3d3;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #009966;
+    -fx-text-fill: white;
+}
+
+.chart-series-line.student-series {
+    -fx-stroke: blue;
+    -fx-stroke-width: 2px;
+}
+
+.chart-series-line.input-series {
+    -fx-stroke: red;
+    -fx-stroke-width: 2px;
+}
+
+.graph-pane {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.axis {
+    -fx-tick-label-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+.chart-legend {
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #333333;
+    -fx-padding: 10px;
+}
+.red-line-symbol {
+    -fx-background-color: red, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.blue-line-symbol {
+    -fx-background-color: blue, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.chart-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Georgia";
+}
+.HeatMap-tile {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Georgia";
+}
+.stacked-bar-chart-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Georgia";
+}
+
+.Button {
+    -fx-font-size: 12px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20;
+    -fx-border-style: solid;
+}
+
+.Button:hover {
+    -fx-background-color: #bdbdbd;
+    -fx-cursor: hand;
+}
+
+.CheckBox {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-background-radius: 5px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 2px;
+    -fx-box-border: solid;
+    -fx-mark-color: #00774D;
+    -fx-focus-color: transparent;
+}
+
+.CheckBox:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-cursor: hand;
+}
+
+.CheckBox:selected {
+    -fx-background-color: #00774D;
+    -fx-text-fill: white;
+    -fx-border-color: #00774D;
+}
+
+.choice-box {
+    -fx-font-size: 12px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+    -fx-font-family: "Georgia";
+}
+
+.choice-box:hover {
+    -fx-background-color: #bdbdbd;
+}
+
+.choice-box .list-view {
+    -fx-background-color: #e0e0e0;
+    -fx-background-radius: 20px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+}
+
+.choice-box .list-view .list-cell {
+    -fx-padding: 3px 10px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #333;
+}
+
+.choice-box .list-view .list-cell:hover {
+    -fx-background-color: #d0d0d0;
+}
+
+.choice-box .list-view .list-cell:filled:selected,
+.choice-box .list-view .list-cell:filled:selected:hover {
+    -fx-background-color: #bdbdbd;
+    -fx-text-fill: white;
+}
+
+.Graph-text {
+    -fx-font-size: 14px;
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-family: "Georgia";
+}
+
+.Graph-text:focused {
+    -fx-background-color: #e6e6e6;
+    -fx-border-color: #00774D;
+}
+
+.Graph-Label {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+.music-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+
+}
+
+.music-button:hover {
+    -fx-background-color: #009966;
+    -fx-cursor: hand;
+}
+
+.music-slider {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+.music-slider .track {
+    -fx-background-color: white;
+    -fx-border-color: #009966;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+.music-slider .thumb {
+    -fx-background-color: #009966;
+    -fx-background-radius: 5;
+}
+
+.music-slider:hover .thumb {
+    -fx-background-color: #009966;
+}
+
+.music-slider .filled-track {
+    -fx-background-color: #009966;
+}
+
+.graph {
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.Predict {
+    -fx-font-size: 30px;
+    -fx-font-family: Georgia;
+    -fx-background-radius: 20px;
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20;
+    -fx-border-style: solid;
+}
+
+.Predict:hover {
+    -fx-background-color: #bdbdbd;
+    -fx-cursor: hand;
+}
