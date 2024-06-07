@@ -35,7 +35,9 @@ public class Predict {
         button.setOnAction(event -> {
             try {
                 predictGrades(stage, root);
-            } catch (IOException ignored) {}
+            } catch (IOException e) {
+                e.printStackTrace(new java.io.PrintWriter(System.err));
+            }
         });
 
         root.getChildren().add(button);
@@ -93,7 +95,8 @@ public class Predict {
             } else {
                 try {
                     tree.buttonPrediction(checkBox.isSelected(), courseInput, idInput, result2);
-                } catch (IOException ignored) {
+                } catch (IOException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
                 }
             }
         });
@@ -125,13 +128,17 @@ public class Predict {
         popup.show(stage);
     }
 
-    private void setupTextFieldListener() {Id.textProperty().addListener((observable, oldValue, newValue) -> updateSuggestions(newValue, Id)); course.textProperty().addListener((observable, oldValue, newValue) -> updateSuggestions2(newValue, course));} //add a listener to the text fields
-    private void updateSuggestions(String input, TextField textField) {
+    private void setupTextFieldListener() {
+        Id.textProperty().addListener((observable, oldValue, newValue) -> updateSuggestions(newValue, Id, false));
+        course.textProperty().addListener((observable, oldValue, newValue) -> updateSuggestions(newValue, course, true));
+    } //add a listener to the text fields
+
+    private void updateSuggestions(String input, TextField textField, boolean isCourse) {
         //update the list of suggestions based on the input
         contextMenu.getItems().clear();
 
         if (!input.isEmpty()) {
-            List<String> suggestions = getSuggestions(input);
+            List<String> suggestions = getSuggestions(input , isCourse);
             suggestions.forEach(suggestion -> {
                 MenuItem menuItem = new MenuItem(suggestion);
                 menuItem.setOnAction(event -> textField.setText(suggestion));
@@ -149,40 +156,19 @@ public class Predict {
             contextMenu.hide();
         }
     }
-    private void updateSuggestions2(String input, TextField textField) {
-        contextMenu.getItems().clear();
 
-        if (!input.isEmpty()) {
-            List<String> suggestions = getSuggestions2(input);
-            suggestions.forEach(suggestion -> {
-                MenuItem menuItem = new MenuItem(suggestion);
-                menuItem.setOnAction(event -> textField.setText(suggestion));
-                menuItem.getStyleClass().add("menu-item");
-                contextMenu.getItems().add(menuItem);
-            });
-
-            if (!contextMenu.getItems().isEmpty()) {
-                Point2D point2D = textField.localToScreen(0, textField.getHeight());
-                contextMenu.show(textField, point2D.getX(), point2D.getY());
-            } else {
-                contextMenu.hide();
-            }
+    private List<String> getSuggestions(String input , boolean isCourse) {
+        //return a list of suggestions based on the input in the context menu
+        if (isCourse) {
+            return SearchBar.courses.stream()
+                    .filter(item -> item.toLowerCase().startsWith(input.toLowerCase()))
+                    .limit(4)
+                    .collect(Collectors.toList());
         } else {
-            contextMenu.hide();
+            return SearchBar.studentIds.stream()
+                    .filter(item -> item.toLowerCase().startsWith(input.toLowerCase()))
+                    .limit(4)
+                    .collect(Collectors.toList());
         }
-    }
-    private List<String> getSuggestions(String input) {
-        //return a list of suggestions based on the input in the context menu
-        return SearchBar.studentIds.stream()
-                .filter(item -> item.toLowerCase().startsWith(input.toLowerCase()))
-                .limit(4)
-                .collect(Collectors.toList());
-    }
-    private List<String> getSuggestions2(String input) {
-        //return a list of suggestions based on the input in the context menu
-        return SearchBar.courses.stream()
-                .filter(item -> item.toLowerCase().startsWith(input.toLowerCase()))
-                .limit(4)
-                .collect(Collectors.toList());
     }
 }

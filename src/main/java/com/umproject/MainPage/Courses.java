@@ -9,7 +9,7 @@ import com.umproject.Graphs.PieChartGraph;
 import com.umproject.Graphs.PolygonGraph;
 import com.umproject.Launcher;
 import com.umproject.Utils.SearchBar;
-import com.umproject.Utils.Widget;
+import com.umproject.Utils.WidgetSetup;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
@@ -165,27 +166,12 @@ public class Courses {
         averages = averages/validNumbersCount;
 
         //calculate the difference between the average of the course and the average of all courses, based on the index and the checkbox state
-        double sum = 0;
-        if (index == 0) {
-            double[] averageGrades = predicate.isSelected() ? PolygonGraph.averageGrades3 : PolygonGraph.averageGrades;
-            for (double i : averageGrades) {
-                sum += i;
-            }
-            sum /= 27; //divide by 27 to avoid the 3 empty courses to mess with the calculation
-        } else if (index == 1) {
-            double[] averageGrades = PolygonGraph.averageGrades2;
-            for (double i : averageGrades) {
-                sum += i;
-            }
-            sum /= 30; //all 30 courses have grades
-        }
-
-        double difference1 = ((averages - sum)/sum)*100; //use the method above
+        double difference1 = getDifference1(index, averages);
         double difference2 = (((1128 - validNumbersCount) - 598.1)/598.1)*100; //calculate the difference between the number of NG on the course and the average number of NG on all courses
         double difference3 = (((validNumbersCount) - 529.9)/529.9)*100; //calculate the difference between the number of grades on the course and the average number of grades on all courses
 
         //update the side Panel with the values and differences
-        Widget.updateLabelsAndIconsCourse(averages, 1128 - validNumbersCount, validNumbersCount, difference1, difference2, difference3,index);
+        WidgetSetup.updateLabelsAndIconsCourse(averages, 1128 - validNumbersCount, validNumbersCount, difference1, difference2, difference3,index);
 
         //create the Histogram button
         Image histogramImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/umproject/images/histogram.png")));
@@ -224,7 +210,8 @@ public class Courses {
                 if (index == 0 || index == 1) {
                     tree.showTreeInPopup(stage, SearchBar.outputCourse, tree, root);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace(new PrintStream(System.err));
             }
         });
 
@@ -269,10 +256,30 @@ public class Courses {
             }
         });
     }
+
+    private static double getDifference1(int index, double averages) {
+        double sum = 0;
+        if (index == 0) {
+            double[] averageGrades = predicate.isSelected() ? PolygonGraph.averageGrades3 : PolygonGraph.averageGrades;
+            for (double i : averageGrades) {
+                sum += i;
+            }
+            sum /= 27; //divide by 27 to avoid the 3 empty courses to mess with the calculation
+        } else if (index == 1) {
+            double[] averageGrades = PolygonGraph.averageGrades2;
+            for (double i : averageGrades) {
+                sum += i;
+            }
+            sum /= 30; //all 30 courses have grades
+        }
+
+        return ((averages - sum)/sum)*100;
+    }
+
     private void LoadFile(String[][] graduateInfoArray, ObservableList<String[]> dataList) {
         //load the array into an ObservableList for the table
         dataList.addAll(Arrays.asList(Objects.requireNonNull(graduateInfoArray)));
-        dataList.remove(0);
+        dataList.removeFirst();
 
         Comparator<String> numericComparator = Menu.createNumericComparator();
         for (int i = 0; i < graduateInfoArray[0].length; i++) {
@@ -311,7 +318,7 @@ public class Courses {
             }
         }
         //Change the text of the info label to the title
-        Widget.info.setText("Course grades");
+        WidgetSetup.info.setText("Course grades");
 
         //add the buttons and the table to the root if they don't already exist
         if (!root.getChildren().contains(table)) {

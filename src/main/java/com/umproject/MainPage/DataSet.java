@@ -7,7 +7,7 @@ import com.umproject.Graphs.StackBarHistogram;
 import com.umproject.Launcher;
 import com.umproject.Utils.CheckBoxPopup;
 import com.umproject.Utils.ReaderCsv;
-import com.umproject.Utils.Widget;
+import com.umproject.Utils.WidgetSetup;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -163,7 +163,7 @@ public class DataSet {
 
             differences1 = (((sum) - 7.26) / 7.26) * 100;
 
-            Widget.updateLabelsAndIconsDataset(sum, 30, grades.length - 1, differences1, index); //update the side panel
+            WidgetSetup.updateLabelsAndIconsDataset(sum, 30, grades.length - 1, differences1, index); //update the side panel
         } else if (index == 4) {
             for (double i : PolygonGraph.averageGrades3) {
                 sum += i;
@@ -172,7 +172,7 @@ public class DataSet {
 
             differences1 = (((sum) - 7.26) / 7.26) * 100;
 
-            Widget.updateLabelsAndIconsDataset(sum, 30, grades.length - 1, differences1, index); //update the side panel
+            WidgetSetup.updateLabelsAndIconsDataset(sum, 30, grades.length - 1, differences1, index); //update the side panel
         } else if (index == 1) {
             for (double i : PolygonGraph.averageGrades2) {
                 sum += i;
@@ -181,7 +181,7 @@ public class DataSet {
 
             differences1 = (((sum) - 7.23) / 7.23) * 100;
 
-            Widget.updateLabelsAndIconsDataset(sum, 30, grades.length - 1, differences1, index); //update the side panel
+            WidgetSetup.updateLabelsAndIconsDataset(sum, 30, grades.length - 1, differences1, index); //update the side panel
         }
 
         //create heatMap button
@@ -307,7 +307,7 @@ public class DataSet {
         //and add the scatterChart to the root if the index is 3,
         //change the name of the info label based on the index
         if(index == 3 || index == 4) {
-            Widget.info.setText("Current Grades");
+            WidgetSetup.info.setText("Current Grades");
             if (!root.getChildren().contains(predicate)) {
                 root.getChildren().add(predicate);
             }
@@ -320,7 +320,7 @@ public class DataSet {
                 }
             }
         } else if (index == 1) {
-            Widget.info.setText("Graduate Grades");
+            WidgetSetup.info.setText("Graduate Grades");
         }
 
         //add the table, the switch button, the heatMap and the stackBarHistogram to the root if it doesn't already exist

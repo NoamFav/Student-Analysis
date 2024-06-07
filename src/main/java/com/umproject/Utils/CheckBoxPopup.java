@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class CheckBoxPopup {
 
@@ -127,14 +128,19 @@ public class CheckBoxPopup {
         lalValue.getStyleClass().add("Graph-Label");
         all.getStyleClass().add("CheckBox");
 
-        VBox lalCountBox1 = new VBox(5, fiftynine, sixty, sixtyone, sixtytwo, sixtythree, sixtyfour, sixtyfive, sixtysix, sixtyseven,sixtyeight, sixtynine, seventy, seventyone, seventytwo, seventythree, seventyfour, seventyfive, seventysix, seventyseven, seventyeight, seventynine);
-        VBox lalCountBox2 = new VBox(5,  eighty, eightyone, eightytwo, eightythree, eightyfour, eightyfive, eightysix, eightyseven, eightyeight, eightynine, ninety, ninetyone, ninetytwo, ninetythree, ninetyfour, ninetyfive, ninetysix, ninetyseven, ninetyeight, ninetynine, hundred );
-        HBox lalCountBox = new HBox( 40, lalCountBox1, lalCountBox2);
-        VBox lalCountBoxFinal = new VBox(5,  lalValue,lalCountBox);
+        VBox lalCountBoxFinal = getvBox(lalValue);
 
         //return the HBox containing all the CheckBoxes grouped as attributes categories
         return new HBox(20, all, surunaBox, hurniBox, voltaBox, lalCountBoxFinal);
     }
+
+    private static @NotNull VBox getvBox(Label lalValue) {
+        VBox lalCountBox1 = new VBox(5, fiftynine, sixty, sixtyone, sixtytwo, sixtythree, sixtyfour, sixtyfive, sixtysix, sixtyseven,sixtyeight, sixtynine, seventy, seventyone, seventytwo, seventythree, seventyfour, seventyfive, seventysix, seventyseven, seventyeight, seventynine);
+        VBox lalCountBox2 = new VBox(5,  eighty, eightyone, eightytwo, eightythree, eightyfour, eightyfive, eightysix, eightyseven, eightyeight, eightynine, ninety, ninetyone, ninetytwo, ninetythree, ninetyfour, ninetyfive, ninetysix, ninetyseven, ninetyeight, ninetynine, hundred );
+        HBox lalCountBox = new HBox( 40, lalCountBox1, lalCountBox2);
+        return new VBox(5, lalValue,lalCountBox);
+    }
+
     public void createPopUP(Stage stage, Pane root){
         //create a popup
         Popup popUp = new Popup();

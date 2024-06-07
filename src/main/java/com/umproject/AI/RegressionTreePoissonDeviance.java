@@ -53,49 +53,8 @@ public class RegressionTreePoissonDeviance {
             this.splitThreshold = Double.NaN; // Initialize with NaN to indicate no numerical threshold
             this.splitCategory = null;       // Initialize as null for non-categorical splits
         }
-        public String toJson() {
-            return toJson(1);
-        }
-
-        //convert the tree to a json file with indentation
-        private String toJson(int indentLevel) {
-            StringBuilder jsonBuilder = new StringBuilder();
-            String indent = String.join("", Collections.nCopies(indentLevel, "    ")); // 4 spaces per indent level
-            String innerIndent = String.join("", Collections.nCopies(indentLevel + 1, "    "));
-            String childIndent = String.join("", Collections.nCopies(indentLevel + 2, "    ")); // additional indent for child nodes
-
-            jsonBuilder.append("{\n");
-
-            if (isLeaf) {
-                jsonBuilder.append(innerIndent).append("\"Leaf Node\": {\n");
-                jsonBuilder.append(childIndent).append("\"Prediction\": ").append(prediction).append(",\n");
-                jsonBuilder.append(childIndent).append("\"Sample\": ").append(sample).append(",\n");
-                jsonBuilder.append(childIndent).append("\"Poisson Deviance\": ").append(poissonDeviance).append(",\n");
-                jsonBuilder.append(childIndent).append("\"Average\": ").append(average).append("\n");
-                jsonBuilder.append(innerIndent).append("}");
-            } else {
-                jsonBuilder.append(innerIndent).append("\"Split Node\": {\n");
-                jsonBuilder.append(childIndent).append("\"Feature\": \"").append(splitFeature).append("\",\n");
-                jsonBuilder.append(childIndent).append("\"Threshold\": ").append(isNumerical ? splitThreshold : "\"" + splitCategory + "\"").append(",\n");
-                jsonBuilder.append(childIndent).append("\"Sample\": ").append(sample).append(",\n");
-                jsonBuilder.append(childIndent).append("\"Poisson Deviance\": ").append(poissonDeviance).append(",\n");
-                jsonBuilder.append(childIndent).append("\"Average\": ").append(average).append(",\n");
-
-                if (leftChild != null) {
-                    jsonBuilder.append(childIndent).append("\"Left Child\": ").append(leftChild.toJson(indentLevel + 2)).append(",\n");
-                }
-                if (rightChild != null) {
-                    jsonBuilder.append(childIndent).append("\"Right Child\": ").append(rightChild.toJson(indentLevel + 2)).append("\n");
-                }
-
-                jsonBuilder.append(innerIndent).append("}");
-            }
-
-            jsonBuilder.append("\n").append(indent).append("}");
-
-            return jsonBuilder.toString();
-        }
     }
+        //convert the tree to a json file with indentation
 
     public RegressionTreePoissonDeviance() throws IOException{
         //load data as a Map of maps
@@ -103,7 +62,7 @@ public class RegressionTreePoissonDeviance {
         loadCurrentGrades();
     }
     private void loadStudentInfo() throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/com/example/umproject/StudentInfo.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/com/example/umproject/csv/StudentInfo.csv"))) {
             br.readLine(); // Skip header
             String line;
             while ((line = br.readLine()) != null) {
@@ -121,21 +80,25 @@ public class RegressionTreePoissonDeviance {
                 try {
                     double lalCount = Double.parseDouble(parts[3]);
                     info.put("Lal Count", lalCount);
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
+                }
 
                 info.put("Volta", parts[4]); //treated as a discrete variable
 
                 try {
                     double ratio = Double.parseDouble(parts[5]);
                     info.put("Ratios", ratio);
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException e) {
+                    e.printStackTrace(new java.io.PrintWriter(System.err));
+                }
 
                 studentInfo.put(studentNumber, info);
             }
         }
     }
     private void loadCurrentGrades() throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/com/example/umproject/CurrentGrades.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/com/example/umproject/csv/CurrentGrades.csv"))) {
             String[] headers = br.readLine().split(",");
             String line;
             while ((line = br.readLine()) != null) {
@@ -192,7 +155,7 @@ public class RegressionTreePoissonDeviance {
         String bestAttribute = splitParts[0];
         Object splitValue = splitParts[1];
 
-        //verify that the best attributes isn't pure
+        //verify that the best attributes aren't pure
         Set<Object> uniqueValues = new HashSet<>();
         for (Integer id : studentIds) {
             Object value = studentInfo.get(id).get(bestAttribute);
@@ -282,7 +245,8 @@ public class RegressionTreePoissonDeviance {
         String bestPropertyAndThreshold = "";
 
         //define properties to check
-        //each time a property is checked, the poisson deviance is calculated and if it is less than the minimum poisson deviance, it is saved
+        //each time a property is checked, the poisson deviance is calculated,
+        // and if it is less than the minimum poisson deviance, it is saved
         //return the property with the lowest poisson deviance
         List<String> continuousProperties = Arrays.asList("Lal Count", "Ratios", "Hurni Level");
         List<String> discreteProperties = List.of("Suruna Value");
@@ -502,9 +466,9 @@ public class RegressionTreePoissonDeviance {
 
         return new Pair<>(bootstrapSample, oobSample);
     }
-    public void runRegressionTree(String course, List<Integer> studentIds, Map<Integer, Map<String, Object>> studentInfo, Map<Integer, Map<String, Double>> currentGrades, int treesNumber) throws IOException {
-        //run the regression tree for a specific course
-        //the regression tree is run multiple times and the best tree is saved
+    public void runRegressionTree(String course, List<Integer> studentIds, Map<Integer, Map<String, Object>> studentInfo, Map<Integer, Map<String, Double>> currentGrades, int treesNumber) {
+        //run the regression tree for a specific course,
+        //the regression tree is run multiple times, and the best tree is saved,
         //the best tree is the tree with the lowest MSE
         //the MSE is calculated by evaluating the tree on a test set
         double bestMSE = Double.POSITIVE_INFINITY;
@@ -535,15 +499,13 @@ public class RegressionTreePoissonDeviance {
                 bestAccuracy = averageAccuracy.getLast();
 
                 bestTree.put(course, root);
-                String json = root.toJson();
-                writeTreeToFile(json, course);
             }
         }
 
         accuraciesForCourses.put(course, bestAccuracy == 0 ? Double.NaN : bestAccuracy);
         MSEForCourses.put(course, Double.isFinite(bestMSE) ? bestMSE : Double.NaN);
     }
-    public void runRandomForest(String course, List<Integer> allStudentIds, Map<Integer, Map<String, Object>> studentInfo, Map<Integer, Map<String, Double>> currentGrades, int numberOfTrees) throws IOException {
+    public void runRandomForest(String course, List<Integer> allStudentIds, Map<Integer, Map<String, Object>> studentInfo, Map<Integer, Map<String, Double>> currentGrades, int numberOfTrees) {
         //run the random forest for a specific course
         averageAccuracy.clear();
         averageMSE.clear();
@@ -566,9 +528,6 @@ public class RegressionTreePoissonDeviance {
             List<Integer> oobSampleIds = splitResult.getValue(); //OOB sample
 
             buildTree(course, subsetStudentIds, studentInfo, currentGrades);
-            writeForestToFile(root.toJson(), course, i);
-
-            smallForest.add(getTree());
 
             //evaluate the tree on the OOB sample
             evaluateModelPerformance(root, oobSampleIds, course, studentInfo, currentGrades);
@@ -651,22 +610,6 @@ public class RegressionTreePoissonDeviance {
         //predict the grade for a student using the regression tree
         TreeNode bestRoot = bestTree.get(course);
         return predictGrade(bestRoot, studentId, studentInfo, isKnown);
-    }
-
-    private TreeNode getTree() {
-        return root; //return the regression tree
-    }
-    private static void writeTreeToFile(String content, String course) throws IOException {
-        //write the tree to a json file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Json/PoissonDeviance/RegressionTree/tree:"  + course + ".json"))) {
-            writer.write(content);
-        }
-    }
-    private static void writeForestToFile(String content, String course, int number) throws IOException {
-        //write the forest to a json file for each course
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Json/PoissonDeviance/forest/" + course + "/tree number:" + number + ".json"))) {
-            writer.write(content);
-        }
     }
 
     private void drawTree(TreeNode node, int x, int y, int depth, int maxWidth, int maxDepth, Pane pane, Pane root) {
@@ -759,7 +702,7 @@ public class RegressionTreePoissonDeviance {
         }
         return 1 + Math.max(calculateMaxDepth(node.leftChild), calculateMaxDepth(node.rightChild));
     }
-    public void showTreeInPopup(Stage stage, String courseName, RegressionTreePoissonDeviance tree, Pane root) throws IOException {
+    public void showTreeInPopup(Stage stage, String courseName, RegressionTreePoissonDeviance tree, Pane root) {
         //create the popup
         Popup popup = new Popup();
         Pane pane = new Pane();

@@ -16,9 +16,4 @@ public class PdfSaver {
 
         root.getChildren().add(save);
     }
-
-    private void createPDF(int input) {
-        //initialize logic pdf`
-        //not available without external libraries
-    }
 }

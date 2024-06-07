@@ -1,7 +1,7 @@
 package com.umproject.Graphs;
 
 import com.umproject.Launcher;
-import com.umproject.Utils.Widget;
+import com.umproject.Utils.WidgetSetup;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,7 +32,7 @@ public class Graph {
 
     public void createGraphButton() {
         //change the info label
-        Widget.info.setText("Compare");
+        WidgetSetup.info.setText("Compare");
 
         //load the icons for the buttons
         Image lineChartIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/umproject/images/lineChart.png")));
@@ -97,7 +97,7 @@ public class Graph {
         });
 
         //change the side panel accordingly
-        Widget.updateLabelsAndIconsGraph();
+        WidgetSetup.updateLabelsAndIconsGraph();
     }
 
     public void draw() {

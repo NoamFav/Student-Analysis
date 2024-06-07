@@ -6,7 +6,7 @@ import com.umproject.Launcher;
 import com.umproject.Utils.CheckBoxPopup;
 import com.umproject.Utils.PdfSaver;
 import com.umproject.Utils.SearchBar;
-import com.umproject.Utils.Widget;
+import com.umproject.Utils.WidgetSetup;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -173,7 +173,7 @@ public class Menu {
         //add the search bar, the pdf saver button, and the widget to the root
         new SearchBar(root, Launcher.Distance(1920,1066,root.getWidth()), Launcher.Distance(1080,76,root.getHeight()), stage);
         new PdfSaver(root, Launcher.Distance(1920,1527,root.getWidth()), Launcher.Distance(1080,76,root.getHeight()));
-        new Widget(root);
+        new WidgetSetup(root);
         new Predict(root, stage);
 
         //for each, check every instance of the pages created over the entire application, delete them if they exist, and draw the one needed
@@ -198,7 +198,7 @@ public class Menu {
             DataSet.predicate.setSelected(false);
             Student.predicate.setSelected(false);
             Courses.predicate.setSelected(false);
-            Widget.page.setText("Data Set");
+            WidgetSetup.page.setText("Data Set");
         });
         StudentsButton.setOnAction(e -> {
             if (dataSet != null) {
@@ -226,7 +226,7 @@ public class Menu {
             DataSet.predicate.setSelected(false);
             Student.predicate.setSelected(false);
             Courses.predicate.setSelected(false);
-            Widget.page.setText("Student " + SearchBar.outputStudent);
+            WidgetSetup.page.setText("Student " + SearchBar.outputStudent);
         });
         CoursesButton.setOnAction(e -> {
             if (dataSet != null) {
@@ -254,7 +254,7 @@ public class Menu {
             DataSet.predicate.setSelected(false);
             Student.predicate.setSelected(false);
             Courses.predicate.setSelected(false);
-            Widget.page.setText("Course " + SearchBar.outputCourse);
+            WidgetSetup.page.setText("Course " + SearchBar.outputCourse);
         });
         GraphicsButton.setOnAction(e -> {
             if (dataSet != null) {
@@ -276,7 +276,7 @@ public class Menu {
             DataSet.predicate.setSelected(false);
             Student.predicate.setSelected(false);
             Courses.predicate.setSelected(false);
-            Widget.page.setText("Graphics");
+            WidgetSetup.page.setText("Graphics");
         });
         HelpButton.setOnAction(e -> {
             if (dataSet != null) {
@@ -297,12 +297,12 @@ public class Menu {
             if (graph != null) {
                 graph.clear();
             }
-            Widget.updateLabelsAndIconsDatasetGraph();
+            WidgetSetup.updateLabelsAndIconsDatasetGraph();
             DataSet.predicate.setSelected(false);
             Student.predicate.setSelected(false);
             Courses.predicate.setSelected(false);
-            Widget.page.setText("Open READ_ME file");
-            Widget.info.setText("To get some help open the file READ_ME");
+            WidgetSetup.page.setText("Open READ_ME file");
+            WidgetSetup.info.setText("To get some help open the file READ_ME");
         });
 
         //add everything to the root

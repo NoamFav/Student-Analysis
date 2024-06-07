@@ -9,8 +9,8 @@ public class graduateCourseCard {
 
     private final int rowCount = data.length; //Number of rows of currentGrades
     private final int colCount = data[0].length; //Number of columns of currentGrades
-    private final double[] sums = new double[rowCount - 1]; //An array to store the sum of grades that each student obtains
-    private final double[] averages = new double[rowCount - 1]; //An array to store the average grades that each student obtains
+    private final double[] sums = new double[rowCount - 1]; //An array to store the sum of grades that each student gets
+    private final double[] averages = new double[rowCount - 1]; //An array to store the average grades that each student gets
 
     //Initialize a 3D array to store course cards with student id and grades
     public String[][] infoArray = new String[rowCount][3];

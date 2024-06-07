@@ -17,6 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -180,7 +182,8 @@ public class PolygonGraph {
         }
         return cord;
     }
-    public static double[] createPoint(Pane root, String course, double value, double radius, double[] center, Color color) {
+    @Contract("_, _, _, _, _, _ -> new")
+    public static double @NotNull [] createPoint(@NotNull Pane root, String course, double value, double radius, double @NotNull [] center, Color color) {
 
         //create the point on each corresponding line with trigonometric equations, for a triangle rectangle
         Circle circle = new Circle();
@@ -200,20 +203,7 @@ public class PolygonGraph {
     public static void createLine(Pane root, double[][] point, String color, Color colors, double[][] cord) {
         //connect each line from a starting point to the next point in the point array
         for(int i = 0; i < 30; i++) {
-            Line line = new Line();
-            line.setStrokeWidth(2);
-            line.setStyle(String.format("-fx-stroke: %s;", color));
-            if (i == 29) {
-                line.setStartX(point[i][0]);
-                line.setStartY(point[i][1]);
-                line.setEndX(point[0][0]);
-                line.setEndY(point[0][1]);
-            } else {
-                line.setStartX(point[i][0]);
-                line.setStartY(point[i][1]);
-                line.setEndX(point[i+1][0]);
-                line.setEndY(point[i+1][1]);
-            }
+            Line line = getLine(point, color, i);
             root.getChildren().add(line);
         }
         double[] flattenedCord = Arrays.stream(cord)
@@ -225,7 +215,27 @@ public class PolygonGraph {
         shade.setOpacity(0.2);
         root.getChildren().add(shade);
     }
-    public void addLegendToPane(Pane graphPane, Pane root, int index, int id1, int id2) {
+
+    @NotNull
+    private static Line getLine(double[][] point, String color, int i) {
+        Line line = new Line();
+        line.setStrokeWidth(2);
+        line.setStyle(String.format("-fx-stroke: %s;", color));
+        if (i == 29) {
+            line.setStartX(point[i][0]);
+            line.setStartY(point[i][1]);
+            line.setEndX(point[0][0]);
+            line.setEndY(point[0][1]);
+        } else {
+            line.setStartX(point[i][0]);
+            line.setStartY(point[i][1]);
+            line.setEndX(point[i +1][0]);
+            line.setEndY(point[i +1][1]);
+        }
+        return line;
+    }
+
+    public void addLegendToPane(@NotNull Pane graphPane, Pane root, int index, int id1, int id2) {
         //add a custom legend to the given pane
         HBox legendBox = new HBox(10);
         legendBox.setPadding(new Insets(10));
@@ -245,7 +255,7 @@ public class PolygonGraph {
 
         graphPane.getChildren().add(legendBox);
     }
-    private VBox createLegendItem(String labelText, Color color, Pane root) {
+    private @NotNull VBox createLegendItem(String labelText, Color color, @NotNull Pane root) {
         //create a legend item with the given label and color
         Rectangle colorIndicator = new Rectangle(Launcher.Distance(1920,10, root.getWidth()), Launcher.Distance(1080,10,root.getHeight()), color);
         Label label = new Label(labelText, colorIndicator);

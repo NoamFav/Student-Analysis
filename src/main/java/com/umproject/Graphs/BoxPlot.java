@@ -194,7 +194,8 @@ public class BoxPlot{
             try {
                 double convertedValue = Double.parseDouble(str);
                 doubleList.add(convertedValue);
-            } catch (NumberFormatException ignored) {
+            } catch (NumberFormatException e) {
+                e.printStackTrace(new java.io.PrintWriter(System.err));
             }
         }
         double[] result = new double[doubleList.size()];

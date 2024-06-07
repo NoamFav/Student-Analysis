@@ -132,7 +132,6 @@ public class LineGraph  {
             makeNodeInvisibleForZeroValue(data);
             inputSeries.getData().add(data);
         }
-
         //add the series to the line chart
         lineChart.getData().addAll(studentSeries, inputSeries);
 
@@ -178,6 +177,7 @@ public class LineGraph  {
         pane.setAlignment(Pos.CENTER);
 
     }
+
     private void addTooltipsToLineChartData(XYChart.Series<String, Number> series, String prefix) {
         //add the tooltip to every point in the line chart
         for (XYChart.Data<String, Number> data : series.getData()) {
