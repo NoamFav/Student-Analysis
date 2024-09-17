@@ -2,7 +2,7 @@ module com.example.umproject {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.jetbrains.annotations;
-
+    requires transitive javafx.graphics;
 
     opens com.umproject to javafx.fxml;
     exports com.umproject;
